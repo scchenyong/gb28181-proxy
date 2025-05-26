@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"gb28181-proxy/data"
+	"io"
 	"net"
 	"strings"
 )
@@ -78,23 +79,10 @@ func (s *SipProxy) transfer(in, out net.Conn) {
 		out.Close()
 	}()
 	for {
-		buffer := make([]byte, 1024)
-		err := s.copyBuffer(in, out, buffer)
+		_, err := io.Copy(out, in)
 		if err != nil {
 			log.Errorf("Error copying buffer: %v", err)
 			return
 		}
 	}
-}
-
-func (s *SipProxy) copyBuffer(src, dest net.Conn, buffer []byte) error {
-	n, err := src.Read(buffer)
-	if err != nil {
-		return err
-	}
-	_, err = dest.Write(buffer[:n])
-	if err != nil {
-		return err
-	}
-	return nil
 }
