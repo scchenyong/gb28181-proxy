@@ -12,16 +12,6 @@
   "serverProtocol": "tcp",
   "clientIp": "192.168.123.55",
   "clientPort": 5060,
-  "devices": [
-    {
-      "sipUser": "34020000001320001001",
-      "streamPort": 20001
-    },
-    {
-      "sipUser": "34020000001320001002",
-      "streamPort": 20002
-    }
-  ],
   "proxyIp": "192.168.1.55",
   "proxySipPort": 5060,
   "proxyMediaPort": 5678

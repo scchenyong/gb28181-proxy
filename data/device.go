@@ -7,5 +7,4 @@ type DeviceInfo struct {
 	Port            int
 	MediaServerIp   string
 	MediaServerPort int
-	StreamPort      int
 }

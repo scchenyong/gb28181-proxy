@@ -3,13 +3,11 @@ package server
 import (
 	"context"
 	"errors"
-	"fmt"
 	"gb28181-proxy/data"
 	"github.com/emiago/sipgo"
 	"github.com/emiago/sipgo/sip"
 	"github.com/op/go-logging"
 	"net"
-	"slices"
 )
 
 const (
@@ -45,10 +43,6 @@ func NewSipProxy(config *data.ProxyServer) (*SipProxy, error) {
 		config:         config,
 		proxyDeviceMap: make(map[string]*data.DeviceInfo),
 	}
-	err := s.checkConfig()
-	if err != nil {
-		return nil, err
-	}
 	return s, nil
 }
 
@@ -56,17 +50,6 @@ func (s *SipProxy) Start() error {
 	s.startClient()
 	s.startProxy()
 	s.startMediaServer()
-	return nil
-}
-
-func (s *SipProxy) checkConfig() error {
-	var streamPorts []int
-	for _, device := range s.config.Devices {
-		if slices.Contains(streamPorts, device.StreamPort) {
-			return errors.New(fmt.Sprintf("设备[streamPort=%d]重复", device.StreamPort))
-		}
-		streamPorts = append(streamPorts, device.StreamPort)
-	}
 	return nil
 }
 
